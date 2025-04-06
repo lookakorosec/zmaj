@@ -100,7 +100,8 @@ let model;
 
 const gestureStrings = {
     left: 'left',
-    right: 'right'
+    right: 'right',
+    icon: 'icon'
 };
 
 const fingerLookupIndices = {
@@ -169,7 +170,30 @@ HorizontalRight.addDirection( fp.Finger.Pinky,  fp.FingerDirection.HorizontalRig
 
   return HorizontalRight;
 }
+function createFingersTop() {
+  const VerticalUp = new fp.GestureDescription('icon');
 
+
+// index:
+VerticalUp.addCurl(fp.Finger.Index,  fp.FingerCurl.NoCurl, 9);
+VerticalUp.addDirection(fp.Finger.Index,  fp.FingerDirection.VerticalUp, 9);
+
+
+// middle:
+VerticalUp.addCurl(fp.Finger.Middle,  fp.FingerCurl.NoCurl, 9);
+VerticalUp.addDirection( fp.Finger.Middle,  fp.FingerDirection.VerticalUp, 9);
+
+// ring:
+VerticalUp.addCurl(fp.Finger.Ring,  fp.FingerCurl.NoCurl, 9);
+VerticalUp.addDirection( fp.Finger.Ring,  fp.FingerDirection.VerticalUp, 9);
+
+// pinky:
+VerticalUp.addCurl(fp.Finger.Pinky,  fp.FingerCurl.NoCurl, 9);
+VerticalUp.addDirection( fp.Finger.Pinky,  fp.FingerDirection.VerticalUp, 9);
+
+
+  return VerticalUp;
+}
 function drawKeypoints(keypoints) {
   for (let i = 0; i < keypoints.length; i++) {
     const y = keypoints[i][0];
@@ -310,7 +334,8 @@ async function continuouslyDetectLandmarks(video) {
   const knownGestures = [
     fp.Gestures.VictoryGesture,
     createFingersLeft(),
-    createFingersRight()
+    createFingersRight(),
+    createFingersTop()
   ];
 
   gestureEstimator = new fp.GestureEstimator(knownGestures);
@@ -418,24 +443,3 @@ function pointHandler () {
                             } 
 }
   
-
-
-
-
-
-
-  /*
-  x=k.offsetX;
-  y=k.offsetY;
-  cursor="X=" + x + " Y=" + y ;
-  */
-
-
-
-
-  /*
-  document.getElementById("aboutMove").innerHTML=cursor;
-  document.getElementById("aboutMove").style.right =  x + 'px';
-  document.getElementById("aboutMove").style.top =  y + 'px';
-  */
-
