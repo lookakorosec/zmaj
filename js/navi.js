@@ -403,13 +403,13 @@ function pointHandler () {
                             
 
                             let xpoint =  document.getElementById("pointsX").innerHTML;
-                            let pointX = ypoint.slice(0, 3);                           
+                            let pointX = xpoint.slice(0, 3);                           
                             
-                            console.log(pointY, pointX);
+                           
 
                             aiMouse.setStyles({
                               right: pointY + "px",
-                              bottom: pointX + "px"
+                              top: pointX + "px"
                             });
 
 
