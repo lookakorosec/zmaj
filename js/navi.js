@@ -51,7 +51,6 @@ var navigation = new Class({
     if (a == "socialL"){
       var foo = a;
       var bar = document.getElementById("social").getElements('article');
-      console.log("prevPage");
     } else {
       var foo = a.target.attributes.id.nodeValue.slice(0, -1); 
       var bar = document.getElementById(foo).getElements('article');
@@ -90,10 +89,13 @@ window.addEvent('load', function(){
   var navi = new navigation();
 
 });
+
+
+
 const config = {
   video: { width: 640, height: 480, fps: 30 },
 };
-let videoWidth, videoHeight, drawingContext, canvas, gestureEstimator;
+let videoWidth, videoHeight, drawingContext, canvas, gestureEstimator,handPoins;
 let model;
 
 const gestureStrings = {
@@ -173,8 +175,12 @@ function drawKeypoints(keypoints) {
     const y = keypoints[i][0];
     const x = keypoints[i][1];
     drawPoint(x - 2, y - 2, 3);
+    
+    {
+      handPoins = keypoints;//get the hadn points
+    }
+    
   }
-
   const fingers = Object.keys(fingerLookupIndices);
   for (let i = 0; i < fingers.length; i++) {
     const finger = fingers[i];
@@ -197,9 +203,6 @@ function drawPoint(y, x, r) {
   drawingContext.fill();
 }
 
-console.log(drawPoint);
-
-
 function drawPath(points, closePath, color) {
   drawingContext.strokeStyle = color;
   const region = new Path2D();
@@ -213,6 +216,7 @@ function drawPath(points, closePath, color) {
     region.closePath();
   }
   drawingContext.stroke(region);
+
 }
 
 async function loadWebcam(width, height, fps) {
@@ -291,7 +295,10 @@ async function continuouslyDetectLandmarks(video) {
         if (result.score > 9) {
 
           document.getElementById('gesture-text').textContent = gestureStrings[result.name];
-          document.getElementById('footer').textContent = gestureStrings;
+          var xyz = handPoins[[0]];
+          document.getElementById('pointsY').textContent = xyz[0];
+          var abc = handPoins[[0]];
+          document.getElementById('pointsX').textContent = abc[1];
         }
       }
     }
@@ -357,8 +364,6 @@ function txtHandler () {
                             var goRight  =  $('socialD');
                             var goLeft  =  $('socialL');
 
-                            console.log(myProps);
-
                             if (myProps === 'right'){
                               goRight.fireEvent('click', "socialD"); 
                             } else if (myProps === 'left'){
@@ -372,3 +377,65 @@ function txtHandler () {
 
 
 }
+
+
+var pointMove = new MutationObserver(pointHandler),
+        elTarget = document.getElementById("gesture-text"),
+        objConfig = {
+            childList: true,
+            subtree : true,
+            attributes: false, 
+            characterData : false
+        };
+
+//then actually do some observing
+pointMove.observe(elTarget, objConfig);
+
+var move = 0;
+var aiMouse =$('targetsCursor');
+function pointHandler () {
+                          if(Date.now() - move > 500) {
+
+
+
+                            let ypoint =  document.getElementById("pointsY").innerHTML;
+                            let pointY = ypoint.slice(0, 3);                           
+                            
+
+                            let xpoint =  document.getElementById("pointsX").innerHTML;
+                            let pointX = ypoint.slice(0, 3);                           
+                            
+                            console.log(pointY, pointX);
+
+                            aiMouse.setStyles({
+                              right: pointY + "px",
+                              bottom: pointX + "px"
+                            });
+
+
+
+                            lastMove = Date.now();
+                            } 
+}
+  
+
+
+
+
+
+
+  /*
+  x=k.offsetX;
+  y=k.offsetY;
+  cursor="X=" + x + " Y=" + y ;
+  */
+
+
+
+
+  /*
+  document.getElementById("aboutMove").innerHTML=cursor;
+  document.getElementById("aboutMove").style.right =  x + 'px';
+  document.getElementById("aboutMove").style.top =  y + 'px';
+  */
+
