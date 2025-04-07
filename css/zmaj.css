@@ -68,6 +68,7 @@ body{
 	border-radius:10px;    
 }
 #anav{
+	cursor:pointer;
 	z-index:10;
 	position:absolute;	
 	height:50px;
@@ -82,6 +83,7 @@ body{
 }
 #snav{
 	z-index:10;
+	cursor:pointer;
 	position:absolute;	
 	height:50px;
 	width:100px;
@@ -94,6 +96,7 @@ body{
 	border-radius:15px;	 	
 }
 #aboutL, #socialL {
+	cursor:pointer;
 	z-index:3;
 	position:absolute;	
 	height:50px;
@@ -107,6 +110,7 @@ body{
 	border-radius:15px;	 	 	
 }
 #aboutD, #socialD {
+	cursor:pointer;
 	z-index:3;
 	position:absolute;	
 	height:50px;
@@ -289,3 +293,4 @@ article > img {
 	background: linear-gradient(0deg, rgba(193, 193, 194, 0.2) 0%, rgba(173,173,173,0.8) 90%);
   }
   footer > a {color:white}
+  h1{font-size:10px;}
